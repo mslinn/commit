@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
       Works with Git LFS
   END_DESC
   spec.email                 = ['mslinn@mslinn.com']
-  spec.files                 = Dir['.rubocop.yml', 'LICENSE.*', 'Rakefile', '{lib,spec}/**/*', '*.gemspec', '*.md']
+  spec.files                 = Dir['.rubocop.yml', 'LICENSE.*', 'Rakefile', '{lib}/**/*', '*.gemspec', '*.md']
   spec.homepage              = 'https://github.com/mslinn/commit'
   spec.license               = 'MIT'
   spec.metadata = {

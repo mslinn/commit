@@ -5,21 +5,27 @@ class GitCommit
   def help(msg = nil)
     printf "Error: #{msg}\n\n".yellow unless msg.nil?
     msg = <<~HELP
+      commit v#{Commit::VERSION}
+
       Runs git commit without prompting for a message.
       Files larger than #{@nh.to_human MAX_SIZE} are added to .gitignore instead of being committed.
+
       Usage: commit [options] [file...]
-        Where options are:
-            -a "tag message"
-            -m "commit message"
-            -v 0 # Minimum verbosity
-            -v 1 # Default verbosity
-            -v 2 # Maximum verbosity
+      Where options are:
+        -a "tag message"
+        -m "commit message"
+        -v 0 # Minimum verbosity
+        -v 1 # Default verbosity
+        -v 2 # Maximum verbosity
+
       Examples:
         commit  # The default commit message is just a single dash (-)
         commit -v 0
         commit -m "This is a commit message"
         commit -v 0 -m "This is a commit message"
         commit -a 0.1.2
+
+      This gem is further described in https://mslinn.com/git/1050-commit.html
     HELP
     puts msg.yellow
     exit 1
