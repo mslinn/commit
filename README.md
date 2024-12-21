@@ -23,11 +23,12 @@ $ commit [options] [file...]
 ```
 
 Where options are:
-  -a "tag message"
-  -m "commit message"
-  -v 0 # Minimum verbosity
-  -v 1 # Default verbosity
-  -v 2 # Maximum verbosity
+
+- `-a "tag message"`
+- `-m "commit message"`
+- `-v 0 # Minimum verbosity`
+- `-v 1 # Default verbosity`
+- `-v 2 # Maximum verbosity`
 
 
 ### Examples
