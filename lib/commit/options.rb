@@ -10,7 +10,7 @@ class GitCommit
       Runs git commit without prompting for a message.
       Files larger than #{@nh.to_human MAX_SIZE} are added to .gitignore instead of being committed.
 
-      Usage: commit [options] [file...]
+      Usage: commit [options]
       Where options are:
         -a "tag message"
         -m "commit message"
