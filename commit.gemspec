@@ -5,10 +5,13 @@ Gem::Specification.new do |spec|
 
   spec.authors               = ['Mike Slinn']
   spec.bindir                = 'exe'
-  spec.executables           = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.executables           = ['commit']
   spec.description           = <<~END_DESC
-    Write a longer description of the gem.
-    Use as many lines as you like.
+    Performs the following:
+      1) git add
+      2) git commit
+      3) git push
+      Works with Git LFS
   END_DESC
   spec.email                 = ['mslinn@mslinn.com']
   spec.files                 = Dir['.rubocop.yml', 'LICENSE.*', 'Rakefile', '{lib,spec}/**/*', '*.gemspec', '*.md']
@@ -31,6 +34,8 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 3.1.0'
   spec.summary               = 'Write summary of what the gem is for'
   spec.version               = Commit::VERSION
+  spec.add_dependency 'activesupport'
   spec.add_dependency 'colorator'
   spec.add_dependency 'optparse'
+  spec.add_dependency 'rugged'
 end

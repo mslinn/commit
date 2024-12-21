@@ -1,32 +1,44 @@
 # `Commit` [![Gem Version](https://badge.fury.io/rb/commit.svg)](https://badge.fury.io/rb/commit)
 
-Description of Commit
+Runs git commit without prompting for a message.
+Files larger than 2 GB are added to .gitignore instead of being committed.
+
+This gem is further described in [A Streamlined Git Commit](https://mslinn.com/git/1050-commit.html).
 
 
 ## Installation
 
-Either add this line to your application&rsquo;s `Gemfile`:
+1) [Install the `rugged` gem.](https://mslinn.com/git/4400-rugged.html)
+2) Type:
 
-```ruby
-gem 'commit'
-```
-
-... or add the following to your application&rsquo;s `.gemspec`:
-
-```ruby
-spec.add_dependency 'commit'
-```
-
-And then execute:
-
-```shell
-$ bundle
-```
+    ```ruby
+    gem install commit
+    ```
 
 
 ## Usage
 
-Describe how to use this gem
+```shell
+$ commit [options] [file...]
+```
+
+Where options are:
+  -a "tag message"
+  -m "commit message"
+  -v 0 # Minimum verbosity
+  -v 1 # Default verbosity
+  -v 2 # Maximum verbosity
+
+
+### Examples
+
+```shell
+$ commit  # The default commit message is just a single dash (-)
+$ commit -v 0
+$ commit -m "This is a commit message"
+$ commit -v 0 -m "This is a commit message"
+$ commit -a 0.1.2
+```
 
 
 ## Development

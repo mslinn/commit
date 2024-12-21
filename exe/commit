@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require_relative '../lib/commit/cli'
+require_relative '../lib/commit'
 
 Commit.main

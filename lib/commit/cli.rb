@@ -15,7 +15,7 @@ end
 
 module Commit
   def self.main
-    @options = parse_options
-    puts "TODO: write main implementation in lib/Commit/cli.rb".yellow
+    git_commit = GitCommit.new
+    git_commit.main
   end
 end

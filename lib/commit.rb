@@ -1,8 +1,14 @@
-require_relative 'commit/version'
+require 'pathname'
+require 'colorator'
+require 'fileutils'
 
-# Require all Ruby files in 'lib/', except this file
-Dir[File.join(__dir__, '*.rb')].each do |file|
-  require file unless file.end_with?('/commit.rb')
+def require_subdirectory(dir)
+  Dir[File.join(dir, '*.rb')].each do |file|
+    require file unless file == __FILE__
+  end
 end
 
-# Write the code for your gem here
+require_subdirectory File.realpath(__dir__) # Require all Ruby files in 'lib/', except this file
+Pathname(__dir__).children.select(&:directory?).each do |directory|
+  require_subdirectory directory.to_s
+end
