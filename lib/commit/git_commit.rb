@@ -74,7 +74,7 @@ class GitCommit
       @gitignore_dirty = true
     else
       commit_push('A portion of the files to be committed is being pushed now because they are large.') if @commit_size + file_size >= MAX_SIZE / 2.0
-      puts "Adding #{filename}".green unless @options[:verbosity].zero?
+      puts "Adding '#{escape filename}'".green unless @options[:verbosity].zero?
       run "git add '#{escape filename}'", verbose: @options[:verbosity] >= 2
     end
     @change_count += 1
@@ -102,7 +102,7 @@ class GitCommit
       if File(path).dir?
         scan_dir path
       elsif large_file?(filename)
-        large << path
+        large << path.gsub(' ', '\ ').gsub('[', '\[').gsub(']', '\]')
       end
     end
     large
@@ -162,7 +162,7 @@ class GitCommit
     end
     if @gitignore_dirty
       puts 'Changing .gitignore'.green unless @options[:verbosity].zero?
-      run 'git add .gitignore', verbose: false
+      run 'git add .gitignore', verbose: @options[:verbosity] >= 2
       @change_count += 1
     end
     return unless @change_count.zero?
