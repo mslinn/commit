@@ -32,7 +32,7 @@ class GitCommit
     @nh = ActiveSupport::NumberHelper
     @commit_size = 0
     @repo = Rugged::Repository.new(ARGV.empty? ? '.' : ARGV[0])
-    Dir.chdir(ARGV[0])
+    Dir.chdir(ARGV[0]) if ARGV[0]
   end
 
   # Needs absolute path or the path relative to the current directory, not just the name of the directory
