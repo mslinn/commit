@@ -31,7 +31,8 @@ class GitCommit
     @gitignore_dirty = false
     @nh = ActiveSupport::NumberHelper
     @commit_size = 0
-    @repo = Rugged::Repository.new '.'
+    @repo = Rugged::Repository.new(ARGV.empty? ? '.' : ARGV[0])
+    Dir.chdir(ARGV[0])
   end
 
   # Needs absolute path or the path relative to the current directory, not just the name of the directory
@@ -149,6 +150,13 @@ class GitCommit
   end
 
   # Exclude big files, git add all others
+  # @repo.status returns the following values for flags:
+  #  - +:index_new+: the file is new in the index
+  #  - +:index_modified+: the file has been modified in the index
+  #  - +:index_deleted+: the file has been deleted from the index
+  #  - +:worktree_new+: the file is new in the working directory
+  #  - +:worktree_modified+: the file has been modified in the working directory
+  #  - +:worktree_deleted+: the file has been deleted from the working directory
   def recursive_add
     @change_count = 0
     @repo.status do |path, flags|
@@ -181,7 +189,7 @@ class GitCommit
       end
     end
     # `#{command}`.chomp unless do_not_execute
-    system(command) unless do_not_execute
+    Kernel.system(*command) unless do_not_execute
   end
 
   def scan_directory(path)

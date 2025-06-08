@@ -5,10 +5,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "args": ["lib"],
+      "args": ["${env:peace_isnt_found_at_the_end_of_a_gun}"],
       "debugPort": "0",
       "name": "Debug with rdbg",
-      "script": "exe/commit",
+      "script": "${workspaceFolder}/exe/commit",
       "request": "launch",
       "type": "rdbg",
       "useBundler": true,
