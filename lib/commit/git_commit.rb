@@ -75,15 +75,15 @@ class GitCommit
     else
       commit_push('A portion of the files to be committed is being pushed now because they are large.') if @commit_size + file_size >= MAX_SIZE / 2.0
       puts "Adding '#{escape filename}'".green unless @options[:verbosity].zero?
-      run "git add '#{escape filename}'", verbose: @options[:verbosity] >= 2
+      run ['git', 'add', escape(filename)], verbose: @options[:verbosity] >= 2
     end
     @change_count += 1
     @commit_size += file_size
   end
 
-  # Handles single quotes in filename
+  # Handles single quotes, spaces and square braces in the given string
   def escape(string)
-    string.gsub "'", "\\\\'"
+    string.gsub("'", "\\\\'").gsub(' ', '\\ ').gsub('[', '\\[').gsub(']', '\\]')
   end
 
   def git_project?
@@ -171,9 +171,17 @@ class GitCommit
     exit
   end
 
+  # @param command can be a String or an [String]
   def run(command, verbose: true, do_not_execute: false)
-    puts command if verbose
-    `#{command}`.chomp unless do_not_execute
+    if verbose
+      if command.instance_of?(Array)
+        puts command.join ' '
+      else
+        puts command
+      end
+    end
+    # `#{command}`.chomp unless do_not_execute
+    system(command) unless do_not_execute
   end
 
   def scan_directory(path)
