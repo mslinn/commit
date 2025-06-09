@@ -179,17 +179,15 @@ class GitCommit
     exit
   end
 
-  # @param command can be a String or an [String]
+  # @param command can be a String or an Array of String
   def run(command, verbose: true, do_not_execute: false)
-    if verbose
-      if command.instance_of?(Array)
-        puts command.join ' '
-      else
-        puts command
-      end
+    if command.instance_of?(Array)
+      puts command.join(' ') if verbose
+      Kernel.system(*command) unless do_not_execute
+    else
+      puts command if verbose
+      `#{command}`.chomp unless do_not_execute
     end
-    # `#{command}`.chomp unless do_not_execute
-    Kernel.system(*command) unless do_not_execute
   end
 
   def scan_directory(path)
