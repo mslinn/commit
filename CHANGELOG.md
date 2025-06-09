@@ -1,6 +1,6 @@
 # Change Log
 
-## 0.6.0 / 2025-06-08
+## 0.6.0 / 2025-06-09
 
 * Filename with embedded single quotes are now processed correctly.
 * The `.gitignore` documentation states that filenames with embedded spaces need to escape the spaces with backslashes.
