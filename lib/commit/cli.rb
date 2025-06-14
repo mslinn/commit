@@ -15,7 +15,6 @@ end
 
 module Commit
   def self.main
-    git_commit = GitCommit.new
-    git_commit.main
+    GitCommit.new.main
   end
 end

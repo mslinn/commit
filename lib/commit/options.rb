@@ -37,7 +37,8 @@ class GitCommit
       parser.program_name = File.basename __FILE__
       @parser = parser
 
-      parser.on('-m', '--message MESSAGE', 'Specify commit message')
+      parser.on('-a', '--tag TAG_MESSAGE', 'Specify tag message')
+      parser.on('-m', '--message COMMIT_MESSAGE', 'Specify commit message')
       parser.on('-v', '--verbosity VERBOSITY', Integer, 'Verbosity (0..2)')
 
       parser.on_tail('-h', '--help', 'Show this message') do
@@ -45,6 +46,13 @@ class GitCommit
       end
     end.order!(into: options)
     help "Invalid verbosity value (#{options[:verbosity]})." if options[:verbosity].negative? || options[:verbosity] > 2
+    if ARGV.length > 1
+      help <<~END_MSG
+        Incorrect syntax.
+        After removing the options, the remaining command line was:
+        #{ARGV.join ' '}
+      END_MSG
+    end
     options
   end
 end

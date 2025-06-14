@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.7.0 / 2025-06-14
+
+* Options are processed once again; this broke in v0.6.0.
+
+
 ## 0.6.0 / 2025-06-09
 
 * Filename with embedded single quotes are now processed correctly.
