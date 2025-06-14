@@ -36,8 +36,6 @@ class GitCommit
     msg = @options[:commit_message] if @options[:commit_message]
     discover_branch
 
-    puts "@options[:verbosity]=#{@options[:verbosity]}"
-
     puts "Committing with message '#{msg}'".green unless @options[:verbosity].zero?
     run("git commit -m '#{msg}' 2>&1 | sed -e '/^X11/d' -e '/^Warning:/d'", verbose: @options[:verbosity] >= 2)
     # @repo.push 'origin', ['refs/heads/master'] # Needs a callback to handle authentication
