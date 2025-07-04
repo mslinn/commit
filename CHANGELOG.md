@@ -3,6 +3,7 @@
 ## 0.7.0 / 2025-06-14
 
 * Options are processed once again; this broke in v0.6.0.
+* Now works from any subdirectory of a git repository.
 
 
 ## 0.6.0 / 2025-06-09
