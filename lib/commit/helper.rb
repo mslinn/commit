@@ -66,6 +66,7 @@ class GitCommit
   #  - +:worktree_deleted+: the file has been deleted from the working directory
   def recursive_add
     @change_count = 0
+    run ['git', 'add', '--all'], verbose: @options[:verbosity] >= 2
     @repo.status do |path, flags|
       next if flags.include? :ignored
 
