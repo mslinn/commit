@@ -36,11 +36,12 @@ class GitCommit
     msg = @options[:commit_message] if @options[:commit_message]
     discover_branch
 
-    puts "Committing with message '#{msg}'".green unless @options[:verbosity].zero?
-    run("git commit -m '#{msg}' 2>&1 | sed -e '/^X11/d' -e '/^Warning:/d'", verbose: @options[:verbosity] >= 2)
+    puts "Committing with message '#{msg}'".green unless @options[:verbosity] == QUIET
+    run "git commit -m '#{msg}' 2>&1 | sed -e '/^X11/d' -e '/^Warning:/d'", verbose: @options[:verbosity] >= VERBOSE
     # @repo.push 'origin', ['refs/heads/master'] # Needs a callback to handle authentication
-    puts "Pushing to origin #{@branch}".green unless @options[:verbosity].zero?
-    run("git push origin #{@branch} --tags 3>&1 1>&2 2>&3 | sed -e '/^X11/d' -e '/^Warning:/d'", verbose: @options[:verbosity] >= 2)
+    puts "Pushing to origin #{@branch}".green unless @options[:verbosity] == QUIET
+    run "git push origin #{@branch} --tags 3>&1 1>&2 2>&3 | sed -e '/^X11/d' -e '/^Warning:/d'",
+        verbose: @options[:verbosity] >= VERBOSE
     @change_count = 0
     @commit_size = 0
   end
@@ -62,7 +63,7 @@ class GitCommit
   def large_files
     large = []
     @repo.status do |path, flags|
-      puts "#{path} #{flags}" if @options[:verbosity].positive?
+      puts "#{path} #{flags}" if @options[:verbosity] >= NORMAL
       if File(path).dir?
         scan_dir path
       elsif large_file?(filename)
@@ -91,8 +92,8 @@ class GitCommit
     tag = @options[:tag]
     return unless tag
 
-    run("git tag -a #{tag} -m 'v#{tag}'", verbose: @options[:verbosity] >= 2)
-    run('git push origin --tags', verbose: @options[:verbosity] >= 2)
+    run "git tag -a #{tag} -m 'v#{tag}'", verbose: @options[:verbosity] >= VERBOSE
+    run 'git push origin --tags', verbose: @options[:verbosity] >= VERBOSE
     exit
   end
 

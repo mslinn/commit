@@ -1,4 +1,11 @@
 class GitCommit
+  QUIET = 0
+  NORMAL = 1
+  VERBOSE = 2
+  ANNOYING = 3
+  STFU = 4
+
+
   # Needs absolute path or the path relative to the current directory, not just the name of the directory
   def add_recursively(name)
     Dir.entries(name).each do |entry|
@@ -28,7 +35,7 @@ class GitCommit
         however the file is #{@nh.to_human file_size}.
         The file will be added to .gitignore.
       MESSAGE
-      puts msg.yellow unless @options[:verbosity].zero?
+      puts msg.yellow unless @options[:verbosity] == QUIET
 
       newline = needs_newline('.gitignore') ? "\n" : ''
       File.write('.gitignore', "#{newline}#{filename}\n", mode: 'a')
@@ -36,9 +43,12 @@ class GitCommit
     elsif filename == '.gitignore'
       @gitignore_dirty = true
     else
-      commit_push('A portion of the files to be committed is being pushed now because they are large.') if @commit_size + file_size >= MAX_SIZE / 2.0
-      puts "Adding '#{escape filename}'".green unless @options[:verbosity].zero?
-      run ['git', 'add', escape(filename)], verbose: @options[:verbosity] >= 2
+      if @commit_size + file_size >= MAX_SIZE / 2.0
+        # Defeat formatter
+        commit_push 'A portion of the files to be committed is being pushed now because they are large.'
+      end
+      puts "Adding '#{escape filename}'".green unless @options[:verbosity] == QUIET
+      run ['git', 'add', escape(filename)], verbose: @options[:verbosity] >= VERBOSE
     end
     @change_count += 1
     @commit_size += file_size
@@ -66,7 +76,7 @@ class GitCommit
   #  - +:worktree_deleted+: the file has been deleted from the working directory
   def recursive_add
     @change_count = 0
-    run ['git', 'add', '--all'], verbose: @options[:verbosity] >= 2
+    run ['git', 'add', '--all'], verbose: @options[:verbosity] >= VERBOSE
     @repo.status do |path, flags|
       next if flags.include? :ignored
 
@@ -77,13 +87,13 @@ class GitCommit
       end
     end
     if @gitignore_dirty
-      puts 'Changing .gitignore'.green unless @options[:verbosity].zero?
+      puts 'Changing .gitignore'.green unless @options[:verbosity] == QUIET
       run 'git add .gitignore', verbose: @options[:verbosity] >= 2
       @change_count += 1
     end
     return unless @change_count.zero?
 
-    puts 'No changes were detected to this git repository.'.green if @options[:verbosity].positive?
+    puts 'No changes were detected to this git repository.'.green if @options[:verbosity] >= VERBOSE
     exit
   end
 

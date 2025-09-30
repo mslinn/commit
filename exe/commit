@@ -2,4 +2,9 @@
 
 require_relative '../lib/commit'
 
+trap "SIGINT" do
+  puts "Exiting"
+  exit 130
+end
+
 Commit.main
